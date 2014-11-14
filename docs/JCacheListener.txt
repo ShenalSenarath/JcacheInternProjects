@@ -1,1 +1,38 @@
 In this the cache events will be detected 
+
+1. Create maven project with Java folder structure
+
+2. Create a listener class. This class should implement the following interfaces as needed:
+
+	CacheEntryCreatedListener<K,V>
+	CacheEntryUpdatedListener<K,V>
+	CacheEntryExpiredListener<K,V>
+	CacheEntryRemovedListener<K,V>
+	Serializable
+
+3. Then the appropriate methods should be implemented to add functionalities to be run when events are triggered.
+
+	onCreated
+	onExpired
+	onRemoval
+	onUpdate
+
+4.Then a cache must be created.(For more details refer JCacheWithHazelCast.txt )
+
+	-Initializing the cache manager
+	-Setting the cache configuration
+	-Initializing the cache
+
+5. Initializing Listener
+
+        CacheListener<String, Integer> listener =  new CacheListener<String, Integer>();
+
+6. Configuring the Listener 
+
+		CacheEntryListenerConfiguration<String, Integer> configuration = new MutableCacheEntryListenerConfiguration<String, Integer>(FactoryBuilder.factoryOf(listener), null, true, false);
+
+7. Registering cache with the listener
+
+		app.cache.registerCacheEntryListener(configuration);
+
+8. Put, update, delete, expire data to see the listener working(Add some printlns to the implemented functions to get some out puts).
