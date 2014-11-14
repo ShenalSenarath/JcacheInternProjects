@@ -54,3 +54,7 @@
 7 Retrieve Data from the cache
 
 		int result=cache.get(key);
+
+8. Close the CacheManager to release the resources.
+
+		cacheManager.close();

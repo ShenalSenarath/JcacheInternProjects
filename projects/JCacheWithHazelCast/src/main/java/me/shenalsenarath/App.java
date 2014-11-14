@@ -9,7 +9,7 @@ import javax.cache.Cache;
 public class App {
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         JCache test = new JCache();
 
         Cache testCache=test.getCache("test1");
@@ -22,6 +22,15 @@ public class App {
 
 
         //getting values from the cache
+
+        for (int i = 0; i < 20; i++) {
+            String TempKey="Key: "+i;
+            System.out.println(TempKey+" Value : "+ testCache.get(TempKey));
+        }
+
+        Thread.sleep(10 * 1000);// Wait for ten seconds
+
+        //getting values from the cache,  this will return null values as the cache will expire in tes seconds
 
         for (int i = 0; i < 20; i++) {
             String TempKey="Key: "+i;
