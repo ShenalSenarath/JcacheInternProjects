@@ -1,0 +1,56 @@
+
+1. Create a Maven project with java structure
+2. Add following the dipendencies to the pom.xml
+
+		<dependencies>
+		      <dependency>
+		          <groupId>javax.cache</groupId>
+		          <artifactId>cache-api</artifactId>
+		          <version>1.0.0</version>
+		      </dependency>
+
+
+		      <dependency>
+		          <groupId>com.hazelcast</groupId>
+		          <artifactId>hazelcast</artifactId>
+		          <version>3.3.3</version>
+		      </dependency>
+		  </dependencies>
+
+********Cache Building process********
+**Refer to the code sample in HazelCast **
+
+
+3. Create a CacheManager 
+
+		cachingProvider = Caching.getCachingProvider();
+        cacheManager = cachingProvider.getCacheManager();
+
+4. Create the configuration for the Simple Cache maps 
+
+		 //configure the cache
+        MutableConfiguration<String, Integer> config = new MutableConfiguration<String, Integer>();
+        config.setStoreByValue(true)
+                .setTypes(String.class, Integer.class)
+                .setExpiryPolicyFactory(AccessedExpiryPolicy.factoryOf(TEN_SEC))
+                .setStatisticsEnabled(false);
+
+5. Create the Cache Map
+
+        //create the cache
+        cacheManager.createCache("name", config);
+
+
+        //get the cache
+        Cache cache = cacheManager.getCache("name", String.class, Integer.class);
+
+6. Add Data to the cache
+
+		int value=8; //Any integer can be passed 
+		String key = "Key"; //Any Key can be passed
+
+		cache.put(key,value); 
+
+7 Retrieve Data from the cache
+
+		int result=cache.get(key);
