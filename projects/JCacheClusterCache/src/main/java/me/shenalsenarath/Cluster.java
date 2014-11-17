@@ -8,13 +8,9 @@ import com.hazelcast.core.HazelcastInstance;
  * Created by shselk on 11/14/2014.
  */
 public class Cluster {
-    public static void main(String[] args) throws InterruptedException {
-        Cluster app = new Cluster();
-        app.runApp();
-    }
 
     /**
-     * This will setup two separate hz node instance for clients to join
+     * This will setup two  hz nodes instance for testing purposes
      */
     public void init() {
         Config config = new Config();
