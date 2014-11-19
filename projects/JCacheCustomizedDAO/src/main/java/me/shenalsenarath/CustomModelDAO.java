@@ -21,7 +21,7 @@ public class CustomModelDAO implements Serializable {
         if (result != null) {
             // Add latency to show the caching effect
             try {
-                Thread.sleep(300);
+                Thread.sleep(2*1000);
             } catch (InterruptedException ignore) {
             }
             return result;
