@@ -1,10 +1,11 @@
-<!DOCTYPE web-app PUBLIC
-        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
-        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+         http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="3.0">
 
-<web-app>
-    <display-name>Archetype Created Web Application</display-name>
-
+    <display-name>Web application to test JCache with Hazelcast in a cluster</display-name>
+    <!--
     <servlet>
         <servlet-name>test</servlet-name>
         <servlet-class>me.shenalsenarath.TestServelet</servlet-class>
@@ -13,5 +14,39 @@
         <servlet-name>test</servlet-name>
         <url-pattern>/test/testservelet.do</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>getinput</servlet-name>
+        <servlet-class>me.shenalsenarath.App.GetInput</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>getinput</servlet-name>
+        <url-pattern>/test/cacheput.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>initCache</servlet-name>
+        <servlet-class>me.shenalsenarath.App.initCache</servlet-class>
+
+    </servlet>
+    <servlet-mapping>
+
+        <servlet-name>initCache</servlet-name>
+        <url-pattern>/test/initcache.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>destroyCache</servlet-name>
+        <servlet-class>me.shenalsenarath.App.destroyCache</servlet-class>
+
+    </servlet>
+    <servlet-mapping>
+
+        <servlet-name>destroyCache</servlet-name>
+        <url-pattern>/test/destroyCache.do</url-pattern>
+    </servlet-mapping>
+
+    -->
+
 
 </web-app>
