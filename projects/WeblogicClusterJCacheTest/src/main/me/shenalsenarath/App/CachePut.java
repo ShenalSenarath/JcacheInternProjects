@@ -1,11 +1,8 @@
 package me.shenalsenarath.App;
 
-import me.shenalsenarath.JCache.JCache;
-
 import javax.cache.Cache;
 import javax.cache.CacheManager;
 import javax.cache.Caching;
-import javax.cache.configuration.OptionalFeature;
 import javax.cache.spi.CachingProvider;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,8 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URI;
-import java.util.Properties;
 
 /**
  * Created by shselk on 11/24/2014.
