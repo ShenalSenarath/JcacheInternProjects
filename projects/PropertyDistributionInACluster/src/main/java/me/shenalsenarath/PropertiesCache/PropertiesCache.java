@@ -29,6 +29,7 @@ public class PropertiesCache {
                 .setExpiryPolicyFactory(AccessedExpiryPolicy.factoryOf(Duration.ETERNAL))
                 .setStatisticsEnabled(false);
 
+
         cacheManager.createCache(CACHENAME, config);
 
         return cacheManager.getCache(CACHENAME, String.class, String.class);
@@ -43,7 +44,7 @@ public class PropertiesCache {
         return true;
     }
 
-    private Cache getCache() throws NullPointerException{
+    private Cache getCache() throws NullPointerException {
         return cacheManager.getCache(CACHENAME, String.class, String.class);
     }
 
