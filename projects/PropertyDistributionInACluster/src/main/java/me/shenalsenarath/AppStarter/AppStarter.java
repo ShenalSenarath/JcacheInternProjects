@@ -56,14 +56,11 @@ public class AppStarter {
 
         Properties appProperties = null;
 
-
         try {
             propertiesCache.initCache();// Initializes the cache if it doesn't exists
         }
-        catch (Exception e){
-            System.out.println("Exception captured");
-        }
         finally {
+
             //Checks whether all properties are set in the cache(1.1.1)
             if (propertiesCache.isAllPropertiesSet()) { //Properties are all set(1.1.1)
                 appProperties = new Properties();
@@ -78,26 +75,22 @@ public class AppStarter {
                     appProperties=getPropertiesFromLocalFile();
                     System.out.println("Reading properties from localfile...");
                     Enumeration keys= appProperties.keys();
-                    //propertiesCache.initCache();
-                    while(keys.hasMoreElements()){
-                        String key = (String)keys.nextElement();
-                        propertiesCache.putProperty(key,appProperties.getProperty(key));
 
+                    if(propertiesCache.acquirePropertiesInitLock()) {
+                        while (keys.hasMoreElements()) {
+                            String key = (String) keys.nextElement();
+                            propertiesCache.putProperty(key, appProperties.getProperty(key));
+                        }
+                        propertiesCache.setAllPropertiesSet();
                     }
-                    propertiesCache.setAllPropertiesSet();
                 } catch (IOException e) {
                     System.out.println("Local file does not exist");
                     waitTillPropertiesAvailable();
                     throw new Exception("No place to find properties: Neither cache nor local file exists");
                 }
             }
-
-
-
         }
-
         return appProperties;
-
     }
 
     private Properties getPropertiesFromLocalFile() throws IOException {

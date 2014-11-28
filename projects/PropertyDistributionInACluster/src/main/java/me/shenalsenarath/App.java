@@ -11,15 +11,15 @@ import java.util.Properties;
 /**
  * Created by shselk on 11/25/2014.
  */
+
+
 public class App {
     public static void main (String args[]) throws Exception {
         AppStarter appStarter = new AppStarter();
-        String [] propertiesNames = {"name","age"};
+        String[] propertiesNames = {"name", "age"};
 
-        Properties properties =appStarter.getProperties(propertiesNames);
+        Properties properties = appStarter.getProperties(propertiesNames);
         System.out.println(properties.toString());
-
-
 
     }
 
