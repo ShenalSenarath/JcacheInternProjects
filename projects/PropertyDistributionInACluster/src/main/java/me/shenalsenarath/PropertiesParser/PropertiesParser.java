@@ -2,15 +2,16 @@ package me.shenalsenarath.PropertiesParser;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+
 import java.util.Enumeration;
 import java.util.Properties;
 
 /**
  * Created by shselk on 11/26/2014.
  */
+
 public class PropertiesParser {
-    private Properties propertise;
+    private Properties properties;
     private String fileAddress;
 
     public PropertiesParser(String fileAddress) {
@@ -18,21 +19,21 @@ public class PropertiesParser {
 
     }
 
-    public Properties getPropertise() throws IOException {
-        FileInputStream in = new FileInputStream(fileAddress);
-        propertise= new Properties();
-        propertise.load(in);
-        return propertise;
+    public Properties getProperties() throws IOException {
+        FileInputStream inputStream = new FileInputStream(fileAddress);
+        properties = new Properties();
+        properties.load(inputStream);
+        return properties;
     }
 
     @Override
     public String toString() {
         StringBuilder returnString = new StringBuilder();
 
-        Enumeration<?> e = propertise.propertyNames();
+        Enumeration<?> e = properties.propertyNames();
         while (e.hasMoreElements()) {
             String key = (String) e.nextElement();
-            String value = propertise.getProperty(key);
+            String value = properties.getProperty(key);
             returnString.append("Key : " + key + ", Value : " + value +"\n");
 
         }
