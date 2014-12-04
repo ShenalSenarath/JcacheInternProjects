@@ -73,7 +73,7 @@ public class AppStarter {
             } else {
                 try {
                     appProperties=getPropertiesFromLocalFile();
-                    System.out.println("Reading properties from localfile...");
+                    System.out.println("Reading properties from local file...");
                     Enumeration keys= appProperties.keys();
 
                     if(propertiesCache.acquirePropertiesInitLock()) {
