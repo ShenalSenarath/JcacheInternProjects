@@ -1,7 +1,6 @@
 package me.shenalsenarath.PropertiesParser;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 
 import java.util.Enumeration;
 import java.util.Properties;
@@ -16,14 +15,25 @@ public class PropertiesParser {
 
     public PropertiesParser(String fileAddress) {
         this.fileAddress = fileAddress;
-
+        properties = new Properties();
     }
 
-    public Properties getProperties() throws IOException {
+    public Properties getPropertiesFromFile() throws IOException {
         FileInputStream inputStream = new FileInputStream(fileAddress);
-        properties = new Properties();
         properties.load(inputStream);
         return properties;
+    }
+
+    public void setPropertiesToFile() throws IOException {
+        File file = new File("config.properties");
+        FileOutputStream fileOut = new FileOutputStream(file);
+        this.properties.store(fileOut,"Application Configurations");
+        fileOut.close();
+    }
+
+    public void addProperty(String property,String value){
+        properties.setProperty(property,value);
+
     }
 
     @Override

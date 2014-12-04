@@ -29,7 +29,7 @@ public class App {
         PropertiesParser parser = new PropertiesParser("config.properties");
 
         try {
-            Properties configProperties = parser.getProperties();
+            Properties configProperties = parser.getPropertiesFromFile();
         } catch (IOException e) {
             System.out.println("Properties file not find!");
             System.exit(10);

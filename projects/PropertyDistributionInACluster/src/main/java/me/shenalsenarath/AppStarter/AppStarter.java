@@ -59,6 +59,10 @@ public class AppStarter {
         try {
             propertiesCache.initCache();// Initializes the cache if it doesn't exists
         }
+        catch(Exception e ){
+            System.out.println("Exception caught");
+
+        }
         finally {
 
             //Checks whether all properties are set in the cache(1.1.1)
@@ -95,7 +99,7 @@ public class AppStarter {
 
     private Properties getPropertiesFromLocalFile() throws IOException {
         PropertiesParser propertiesParser = new PropertiesParser("config.properties");
-        return propertiesParser.getProperties();
+        return propertiesParser.getPropertiesFromFile();
     }
     private void waitTillPropertiesAvailable(){
 
