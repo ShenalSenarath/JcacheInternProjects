@@ -1,0 +1,22 @@
+WebLogic Clustering 
+
+	https://docs.oracle.com/cd/E24902_01/doc.91/e24417/appx_cluster_weblogic.htm
+	http://docs.oracle.com/cd/E23943_01/web.1111/e14144/intro.htm 
+
+JCache Sample Codes
+
+	https://github.com/hazelcast/hazelcast-code-samples/tree/master/jcache
+
+JCache Documenatation adn references
+	
+	http://grepcode.com/file/repo1.maven.org/maven2/javax.cache/cache-api/1.0.0/javax/cache/Cache.java
+	http://docs.hazelcast.org/docs/3.4-EA/manual/html/jcache.html
+	https://docs.google.com/document/d/1YZ-lrH6nW871Vd9Z34Og_EqbX_kxxJi55UrSn4yL2Ak/
+
+HazelCast Docmentations
+
+	http://hazelcast.com/resources/mastering-hazelcast/
+
+Maven
+
+	https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html
