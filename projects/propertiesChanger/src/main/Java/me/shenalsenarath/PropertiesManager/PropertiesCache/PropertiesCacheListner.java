@@ -1,4 +1,4 @@
-package me.shenalsenarath.PropertiesCache;
+package me.shenalsenarath.PropertiesManager.PropertiesCache;
 
 import javax.cache.event.CacheEntryCreatedListener;
 import javax.cache.event.CacheEntryListenerException;

@@ -1,4 +1,4 @@
-package me.shenalsenarath.PropertiesCache;
+package me.shenalsenarath.PropertiesManager.PropertiesCache;
 
 import javax.cache.Cache;
 import javax.cache.CacheException;
@@ -62,6 +62,9 @@ public class PropertiesCache {
         cache.replace(ALLPROPERTIESSET, "false", "true");
     }
 
+    /**
+     * @return boolean true if the cache is already initialized. false when the cache is not initialized.
+     */
     public boolean isInitialized() {
         if (cacheManager.getCache(CACHENAME, String.class, String.class) != null)
             return true;
