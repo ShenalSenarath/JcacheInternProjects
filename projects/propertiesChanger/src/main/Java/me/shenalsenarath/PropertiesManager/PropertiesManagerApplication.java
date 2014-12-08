@@ -1,7 +1,7 @@
 package me.shenalsenarath.PropertiesManager;
 
-import me.shenalsenarath.PropertiesManager.RESTResources.Cache;
-import me.shenalsenarath.PropertiesManager.RESTResources.Properties;
+import me.shenalsenarath.PropertiesManager.RESTResources.CacheResource;
+import me.shenalsenarath.PropertiesManager.RESTResources.PropertiesResource;
 
 import javax.ws.rs.core.Application;
 import javax.ws.rs.ApplicationPath;
@@ -13,11 +13,11 @@ import java.util.Set;
  */
 
 @ApplicationPath("/")
-public class PropertiesManager extends Application{
+public class PropertiesManagerApplication extends Application{
     public Set<Class<?>> getClasses() {
         Set<Class<?>> s = new HashSet<Class<?>>();
-        s.add(Cache.class);
-        s.add(Properties.class);
+        s.add(CacheResource.class);
+        s.add(PropertiesResource.class);
         return s;
     }
 }

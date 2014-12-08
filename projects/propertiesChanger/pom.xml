@@ -23,10 +23,18 @@
             <version>2.0.1</version>
         </dependency>
 
+        <!-- For handling JSON inside the application -->
         <dependency>
-            <groupId>javax.json</groupId>
-            <artifactId>javax.json-api</artifactId>
-            <version>1.0</version>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
+            <version>2.4.0</version>
+        </dependency>
+
+        <!-- Caching Provider for JCache -->
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast</artifactId>
+            <version>3.3.3</version>
         </dependency>
 
     </dependencies>

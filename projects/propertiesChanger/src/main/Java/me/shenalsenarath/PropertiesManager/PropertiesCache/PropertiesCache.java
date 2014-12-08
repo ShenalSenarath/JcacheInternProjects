@@ -5,23 +5,24 @@ import javax.cache.CacheException;
 import javax.cache.CacheManager;
 import javax.cache.Caching;
 import javax.cache.configuration.MutableConfiguration;
+
 import javax.cache.expiry.AccessedExpiryPolicy;
 import javax.cache.expiry.Duration;
 import javax.cache.spi.CachingProvider;
+import java.util.Iterator;
+import java.util.Properties;
 import java.util.UUID;
 
 /**
  * Created by shselk on 11/25/2014.
- *
- *
  */
 public class PropertiesCache {
     CachingProvider cachingProvider;
     CacheManager cacheManager;
     UUID uuid;
     static final String CACHENAME = "PropertiesCache";
-    static final String ALLPROPERTIESSET = "AllPropertiesSet";
-    static final String PROPERTIESOWNERUUID = "PropertiesOwnerUUID";
+    public static final String ALLPROPERTIESSET = "AllPropertiesSet";
+    public static final String PROPERTIESOWNERUUID = "PropertiesOwnerUUID";
 
     /**
      * At the initializing of the the class Caching provider will be started and the cache manager will be instantiated.
@@ -119,14 +120,28 @@ public class PropertiesCache {
     }
 
     /**
+     * Gets all the properties from the cache and creates a Properties Object
+     * @return Properties object containing all the entries in the properties cache
+     */
+    public Properties getAllProperties(){
+        Cache<String, String> cache = getCache();
+        Properties returnProperties= new Properties();
+        Iterator<Cache.Entry<String,String>> allCacheEntries= cache.iterator();
+        while(allCacheEntries.hasNext()){
+            Cache.Entry<String,String> currentEntry = allCacheEntries.next();
+            returnProperties.setProperty(currentEntry.getKey(), currentEntry.getValue());
+        }
+        return returnProperties;
+    }
+
+    /**
      * Get the value of the property with the parameter from the Properties Cache
-     * @param propertyName
+     * @param propertyName String of the property name
      * @return
      */
     public String getPropertyVal(String propertyName) {
         Cache<String, String> cache = getCache();
         String returnString = null;
-
         try {
             returnString = cache.get(propertyName);
             return returnString;
@@ -153,6 +168,8 @@ public class PropertiesCache {
         this.cacheManager.close();
         this.cachingProvider.close();
     }
+
+
 
 
 }
