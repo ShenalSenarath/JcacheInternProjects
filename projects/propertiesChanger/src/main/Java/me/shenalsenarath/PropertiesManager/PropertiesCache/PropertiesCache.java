@@ -4,6 +4,9 @@ import javax.cache.Cache;
 import javax.cache.CacheException;
 import javax.cache.CacheManager;
 import javax.cache.Caching;
+import javax.cache.configuration.CacheEntryListenerConfiguration;
+import javax.cache.configuration.FactoryBuilder;
+import javax.cache.configuration.MutableCacheEntryListenerConfiguration;
 import javax.cache.configuration.MutableConfiguration;
 
 import javax.cache.expiry.AccessedExpiryPolicy;
@@ -13,16 +16,18 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.UUID;
 
+
 /**
  * Created by shselk on 11/25/2014.
  */
+
 public class PropertiesCache {
+    public static final String ALLPROPERTIESSET = "AllPropertiesSet";
+    public static final String PROPERTIESOWNERUUID = "PropertiesOwnerUUID";
+    static final String CACHENAME = "PropertiesCache";
     CachingProvider cachingProvider;
     CacheManager cacheManager;
     UUID uuid;
-    static final String CACHENAME = "PropertiesCache";
-    public static final String ALLPROPERTIESSET = "AllPropertiesSet";
-    public static final String PROPERTIESOWNERUUID = "PropertiesOwnerUUID";
 
     /**
      * At the initializing of the the class Caching provider will be started and the cache manager will be instantiated.
@@ -33,7 +38,6 @@ public class PropertiesCache {
         cacheManager = cachingProvider.getCacheManager();
         uuid = UUID.randomUUID();
     }
-
 
     /**
      * This will create the Properties Cache in the cluster if not present and it will put a "false" value to the
@@ -48,12 +52,23 @@ public class PropertiesCache {
                 .setTypes(String.class, String.class)
                 .setExpiryPolicyFactory(AccessedExpiryPolicy.factoryOf(Duration.ETERNAL))
                 .setStatisticsEnabled(false);
+
         //createCache
         cacheManager.createCache(CACHENAME, config);
         //Add properties not present key
         getCache().putIfAbsent(ALLPROPERTIESSET, "false");
-    }
 
+
+        //create the EntryListener
+        PropertiesCacheListener<String, String> listener =  new PropertiesCacheListener<String, String>();
+
+        //using out listener, lets create a configuration
+        CacheEntryListenerConfiguration<String, String> conf = new MutableCacheEntryListenerConfiguration<String, String>(FactoryBuilder.factoryOf(listener), null, true, false);
+
+        //register it to the cache at run-time
+        getCache().registerCacheEntryListener(conf);
+
+    }
 
     /**
      * This will change the value of the entry with the key "AllPropertiesSet", "false" to "true"
@@ -67,9 +82,7 @@ public class PropertiesCache {
      * @return boolean true if the cache is already initialized. false when the cache is not initialized.
      */
     public boolean isInitialized() {
-        if (cacheManager.getCache(CACHENAME, String.class, String.class) != null)
-            return true;
-        return false;
+        return cacheManager.getCache(CACHENAME, String.class, String.class) != null;
     }
 
     /**
@@ -81,15 +94,13 @@ public class PropertiesCache {
     public boolean acquirePropertiesInitLock() {
         Cache<String, String> cache = getCache();
         cache.putIfAbsent(PROPERTIESOWNERUUID, uuid.toString());
-        if (cache.get(PROPERTIESOWNERUUID).equals(uuid.toString()))
-            return true;
-        else
-            return false;
+        return cache.get(PROPERTIESOWNERUUID).equals(uuid.toString());
 
     }
 
     /**
      * This method will check the cache for the value of "AllPropertiesSet" key.
+     *
      * @return boolean true if value is String true or else boolean false
      */
     public boolean isAllPropertiesSet() {
@@ -100,18 +111,14 @@ public class PropertiesCache {
         } catch (NullPointerException e) {
             return false;
         }
-        if (status.equals("true")) {
-            return true;
-        } else {
-            return false;
-        }
+        return status.equals("true");
     }
 
 
     /**
      * This method will be used to put properties to the Cache
      *
-     * @param name is the name of the property that needed to be put to Properties Cache
+     * @param name  is the name of the property that needed to be put to Properties Cache
      * @param value is the value of the property that needed to be put to Properties Cache
      */
     public void putProperty(String name, String value) {
@@ -121,23 +128,24 @@ public class PropertiesCache {
 
     /**
      * Gets all the properties from the cache and creates a Properties Object
+     *
      * @return Properties object containing all the entries in the properties cache
      */
-    public Properties getAllProperties(){
+    public Properties getAllProperties() {
         Cache<String, String> cache = getCache();
-        Properties returnProperties= new Properties();
-        Iterator<Cache.Entry<String,String>> allCacheEntries= cache.iterator();
-        while(allCacheEntries.hasNext()){
-            Cache.Entry<String,String> currentEntry = allCacheEntries.next();
+        Properties returnProperties = new Properties();
+        Iterator<Cache.Entry<String, String>> allCacheEntries = cache.iterator();
+        while (allCacheEntries.hasNext()) {
+            Cache.Entry<String, String> currentEntry = allCacheEntries.next();
             returnProperties.setProperty(currentEntry.getKey(), currentEntry.getValue());
         }
         return returnProperties;
     }
 
     /**
-     * Get the value of the property with the parameter from the Properties Cache
-     * @param propertyName String of the property name
-     * @return
+     * Get the value of the property with the parameter from the Properties Cache.
+     * @param propertyName String of the property name.
+     * @return get the value of the given property name.
      */
     public String getPropertyVal(String propertyName) {
         Cache<String, String> cache = getCache();
@@ -152,24 +160,29 @@ public class PropertiesCache {
 
     /**
      * Gets the Properties Cache
+     *
      * @return Cache
      * @throws NullPointerException
      */
-    private Cache<String, String> getCache() throws NullPointerException {
+    protected Cache<String, String> getCache() throws NullPointerException {
         return cacheManager.getCache(CACHENAME, String.class, String.class);
     }
 
     /**
-     * This will delete cache and stop the provider.
+     * This will delete cache this will not notify any listeners.
      */
     public void destroyCache() {
         this.cacheManager.getCache(CACHENAME, String.class, String.class).close();
         this.cacheManager.destroyCache(CACHENAME);
+    }
+
+    /**
+     * This will delete the cache and stop the caching provider
+     */
+    public void shutdownCache(){
+        this.destroyCache();
         this.cacheManager.close();
         this.cachingProvider.close();
     }
-
-
-
 
 }

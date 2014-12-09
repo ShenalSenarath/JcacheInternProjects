@@ -2,7 +2,6 @@ package me.shenalsenarath.PropertiesManager.RESTResources;
 
 import me.shenalsenarath.PropertiesManager.PropertiesCache.PropertiesCache;
 
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.Enumeration;
@@ -52,20 +51,19 @@ public class PropertiesResource {
      * @param properties
      */
     @POST
-    @Path("/add}")
     @Consumes(MediaType.APPLICATION_JSON)
     public void addProperty(Properties properties) {
-        //TODO implement
+        //TODO check consistency
         PropertiesCache propertiesCache = new PropertiesCache();
-        Enumeration enumeration=properties.keys();
-        if (propertiesCache.isInitialized()) {
-            while (enumeration.hasMoreElements()) {
-                String key = (String)enumeration.nextElement();
-                String value = properties.getProperty(key);
-                propertiesCache.putProperty(key,value);
-
-            }
+        Enumeration enumeration = properties.keys();
+        if (!propertiesCache.isInitialized())
+            propertiesCache.initCache();
+        while (enumeration.hasMoreElements()) {
+            String key = (String) enumeration.nextElement();
+            String value = properties.getProperty(key);
+            propertiesCache.putProperty(key, value);
         }
+
 
     }
 
@@ -76,7 +74,11 @@ public class PropertiesResource {
     @DELETE
     public void deleteAll() {
         System.out.println("delete all");
-        //TODO implement
+        //TODO Test this
+        PropertiesCache propertiesCache = new PropertiesCache();
+        propertiesCache.destroyCache();
+        propertiesCache.initCache();
+
     }
 
     /**
