@@ -31,6 +31,14 @@ public class CacheBindingListener implements ServletContextListener {
             System.out.println("Reading properties from cache...");
             appProperties=propertiesCache.getAllProperties();
 
+            PropertiesParser propertiesParser =new PropertiesParser("config.properties");
+            propertiesParser.setProperties(appProperties);
+            try {
+                propertiesParser.setPropertiesToFile();
+            } catch (IOException e) {
+                System.out.println("File cannot be accessed for writing.");
+            }
+
         } else {
             try {
                 appProperties=getPropertiesFromLocalFile();
@@ -66,7 +74,7 @@ public class CacheBindingListener implements ServletContextListener {
         return propertiesParser.getPropertiesFromFile();
     }
     private void waitTillPropertiesAvailable(){
-
+        System.out.println("**************Waiting is not yet implemented***********************");
     }
 
 }
