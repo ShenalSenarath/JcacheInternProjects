@@ -59,14 +59,7 @@ public class PropertiesCache {
         getCache().putIfAbsent(ALLPROPERTIESSET, "false");
 
 
-        //create the EntryListener
-        PropertiesCacheListener<String, String> listener =  new PropertiesCacheListener<String, String>();
 
-        //using out listener, lets create a configuration
-        CacheEntryListenerConfiguration<String, String> conf = new MutableCacheEntryListenerConfiguration<String, String>(FactoryBuilder.factoryOf(listener), null, true, false);
-
-        //register it to the cache at run-time
-        getCache().registerCacheEntryListener(conf);
 
     }
 
@@ -139,6 +132,9 @@ public class PropertiesCache {
             Cache.Entry<String, String> currentEntry = allCacheEntries.next();
             returnProperties.setProperty(currentEntry.getKey(), currentEntry.getValue());
         }
+        returnProperties.remove(ALLPROPERTIESSET);
+        returnProperties.remove(PROPERTIESOWNERUUID);
+
         return returnProperties;
     }
 
@@ -185,4 +181,14 @@ public class PropertiesCache {
         this.cachingProvider.close();
     }
 
+    public void bindListener(){
+        //create the EntryListener
+        PropertiesCacheListener<String, String> listener =  new PropertiesCacheListener<String, String>();
+
+        //using out listener, lets create a configuration
+        CacheEntryListenerConfiguration<String, String> conf = new MutableCacheEntryListenerConfiguration<String, String>(FactoryBuilder.factoryOf(listener), null, true, false);
+
+        //register it to the cache at run-time
+        getCache().registerCacheEntryListener(conf);
+    }
 }
