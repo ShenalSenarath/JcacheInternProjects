@@ -12,6 +12,11 @@ import java.util.Properties;
  * Created by shselk on 11/27/2014.
  */
 public class PropertiesCacheListener<K,V> implements CacheEntryCreatedListener<K,V>, CacheEntryUpdatedListener<K,V>,CacheEntryRemovedListener<K, V>, Serializable {
+    /**
+     * Writes to the local properties file the just updated properties
+     * @param cacheEntryEvents
+     * @throws CacheEntryListenerException
+     */
     @Override
     public void onCreated(Iterable<CacheEntryEvent<? extends K, ? extends V>> cacheEntryEvents) throws CacheEntryListenerException {
         System.out.println("*********************************************************Created");

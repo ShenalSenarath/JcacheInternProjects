@@ -13,9 +13,10 @@ import java.util.Properties;
 /**
  * Created by shselk on 12/11/2014.
  */
+
+@SuppressWarnings("UnusedDeclaration")
 @WebListener
 public class CacheBindingListener implements ServletContextListener {
-
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
@@ -25,12 +26,9 @@ public class CacheBindingListener implements ServletContextListener {
         propertiesCache.bindListener();
 
         Properties appProperties=null;
-        //Checks whether all properties are set in the cache(1.1.1)
         if (propertiesCache.isAllPropertiesSet()) { //Properties are all set(1.1.1)
-            appProperties = new Properties();
             System.out.println("Reading properties from cache...");
             appProperties=propertiesCache.getAllProperties();
-
             PropertiesParser propertiesParser =new PropertiesParser("config.properties");
             propertiesParser.setProperties(appProperties);
             try {
@@ -38,13 +36,11 @@ public class CacheBindingListener implements ServletContextListener {
             } catch (IOException e) {
                 System.out.println("File cannot be accessed for writing.");
             }
-
         } else {
             try {
                 appProperties=getPropertiesFromLocalFile();
                 System.out.println("Reading properties from local file...");
                 Enumeration keys= appProperties.keys();
-
                 if(propertiesCache.acquirePropertiesInitLock()) {
                     while (keys.hasMoreElements()) {
                         String key = (String) keys.nextElement();
@@ -66,15 +62,15 @@ public class CacheBindingListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-
     }
 
     private Properties getPropertiesFromLocalFile() throws IOException {
         PropertiesParser propertiesParser = new PropertiesParser("config.properties");
         return propertiesParser.getPropertiesFromFile();
     }
+
     private void waitTillPropertiesAvailable(){
+        //TODO waiting implement
         System.out.println("**************Waiting is not yet implemented***********************");
     }
-
 }

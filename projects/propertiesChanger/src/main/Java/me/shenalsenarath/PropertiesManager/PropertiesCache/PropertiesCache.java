@@ -107,6 +107,15 @@ public class PropertiesCache {
         return status.equals("true");
     }
 
+    /**
+     * This will remove the property from the cache
+     *
+     * @param name of the property to be removed.
+     */
+    public void removeProperty(String name){
+        Cache<String, String> cache = getCache();
+        cache.remove(name);
+    }
 
     /**
      * This method will be used to put properties to the Cache

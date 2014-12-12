@@ -13,12 +13,17 @@ import java.util.Properties;
  * Created by shselk on 12/5/2014.
  */
 
+//TODO have to set concurrency
 
 @Path("/properties")
 public class PropertiesResource {
 
+    /**
+     * This will return all the properties from the properties cache.
+     *
+     * @return all properties from the cache
+     */
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     public Properties getAllProperties() {
         //System.out.println("get property all properties");
         PropertiesCache cache = new PropertiesCache();
@@ -27,23 +32,6 @@ public class PropertiesResource {
         returnProperties.remove(PropertiesCache.PROPERTIESOWNERUUID);
         return returnProperties;
     }
-
-    @GET
-    @Path("/{propertyName}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Properties getProperty(@PathParam("propertyName") String propertyName) {
-
-        //System.out.println("get property : " + propertyName);
-        PropertiesCache cache = new PropertiesCache();
-        if (cache.isInitialized()) {
-            Properties returnProperties = new Properties();
-            returnProperties.setProperty(propertyName, cache.getPropertyVal(propertyName));
-            return returnProperties;
-        } else {
-            return null;
-        }
-    }
-
 
     /**
      * This will add new properties to the cache. It will replace the value if the property already exist in the cache
@@ -54,6 +42,7 @@ public class PropertiesResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public void addProperty(Properties properties) {
         //TODO check consistency
+
         PropertiesCache propertiesCache = new PropertiesCache();
         Enumeration enumeration = properties.keys();
         if (!propertiesCache.isInitialized())
@@ -63,35 +52,23 @@ public class PropertiesResource {
             String value = properties.getProperty(key);
             propertiesCache.putProperty(key, value);
         }
-
-
     }
 
 
     /**
-     * Clears the full Properties Cache and sets the cache to non initialized status
-     */
-    @DELETE
-    public void deleteAll() {
-        System.out.println("delete all");
-        //TODO Test this
-        PropertiesCache propertiesCache = new PropertiesCache();
-        propertiesCache.destroyCache();
-        propertiesCache.initCache();
-
-    }
-
-    /**
-     * Deletes the given property from the Cache
+     * Deletes the properties from the cache.
      *
-     * @param propertiesName Name of the property that needed to be deleted
+     * @param properties the properties that should be deleted
      */
     @DELETE
-    @Path("/{propertiesName}")
-    public void delete(@PathParam("propertiesName") String propertiesName) {
-        //TODO implement
-        System.out.println("delete : " + propertiesName);
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void deleteAll(Properties properties) {
+        PropertiesCache propertiesCache = new PropertiesCache();
+        Enumeration enumeration = properties.keys();
+        while (enumeration.hasMoreElements()) {
+            String key = (String) enumeration.nextElement();
+            propertiesCache.removeProperty(key);
+        }
     }
-
 
 }
